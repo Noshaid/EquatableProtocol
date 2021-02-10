@@ -1,0 +1,41 @@
+import UIKit
+
+struct Product {
+    let category: ProductCategory
+    let identifier: String
+    let title: String
+    let price: Double
+}
+
+struct ProductCategory {
+    let id: String
+}
+
+let shoesCategory = ProductCategory(id: "shoes")
+let clothingCategory = ProductCategory(id: "clothing")
+
+let product1 = Product(category: shoesCategory, identifier: "product0001", title: "First product", price: 30.0)
+let product2 = Product(category: clothingCategory, identifier: "product0002", title: "Second product", price: 45.0)
+
+
+if product1.identifier == product2.identifier && product1.category.id == product2.category.id {
+    print("Without Equatable Protocol: Products are the same")
+} else {
+    print("Without Equatable Protocol: Products are different")
+}
+
+extension Product: Equatable {
+    public static func ==(lhs: Product, rhs: Product) -> Bool {
+        return lhs.identifier == rhs.identifier
+            && lhs.category.id == rhs.category.id
+    }
+}
+
+let sampleProduct1 = Product(category: clothingCategory, identifier: "product0003", title: "Test product", price: 30.0)
+let sampleProduct2 = Product(category: clothingCategory, identifier: "product0003", title: "Test product", price: 45.0)
+
+if sampleProduct1 == sampleProduct2 {
+    print("With Equatable Protocol: Products are the same")
+} else {
+    print("With Equatable Protocol: Products are different")
+}
